@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "947687804408",
+    "project_id": "linkup-b4243",
+    "storage_bucket": "linkup-b4243.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:947687804408:android:0c67ea0121cae6cb305a0d",
+        "android_client_info": {
+          "package_name": "com.example.linkup"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzq1zQl0WFJPKj9SaIZPrX_JWiPWLI1Ic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
