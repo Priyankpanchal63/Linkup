@@ -89,7 +89,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
               child: Icon(
-                Icons.favorite,
+                Icons.add_business_outlined, // Notification icon for job section
                 color: (_page == 3) ? Colors.black : Colors.grey,
               ),
             ),
