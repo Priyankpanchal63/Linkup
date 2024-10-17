@@ -3,54 +3,86 @@ import 'package:linkup/resources/firestore_methods.dart';
 import 'package:linkup/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../models/user.dart';
 import '../providers/user_provider.dart';
 import '../widget/Comment_card.dart';
+
 class CommentsScreen extends StatefulWidget {
   final snap;
-  const CommentsScreen({super.key,required this.snap});
+  const CommentsScreen({super.key, required this.snap});
 
   @override
   State<CommentsScreen> createState() => _CommentsScreenState();
 }
 
-class _CommentsScreenState extends State<CommentsScreen> {
-  final TextEditingController _commentController=TextEditingController();
+class _CommentsScreenState extends State<CommentsScreen> with SingleTickerProviderStateMixin {
+  final TextEditingController _commentController = TextEditingController();
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
+  }
+
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _commentController.dispose();
+    _controller.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-    final User? user=Provider.of<UserProvider>(context).getUser;
+    final User? user = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mobileBackgroundColor,
-        title: const Text('Comments'),
+        backgroundColor: Colors.white,
+        title: const Text(
+          'Comments',
+          style: TextStyle(color: Colors.black), // Set title text color to black
+        ),
         centerTitle: false,
       ),
-      body:StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('posts')
-            .doc(widget.snap['postId'])
-            .collection('comments')
-            .orderBy('datePublished',descending: true,)
-            .snapshots(),
-        builder: (context,snapshot){
-          if(snapshot.connectionState== ConnectionState.waiting){
-            return const Center(
-              child: CircularProgressIndicator(),
+      body: Container(
+        color: Colors.white, // Set background color to white
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('posts')
+              .doc(widget.snap['postId'])
+              .collection('comments')
+              .orderBy('datePublished', descending: true)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            // Extract comment data
+            final comments = (snapshot.data! as dynamic).docs;
+
+            return ListView.builder(
+              itemCount: comments.length,
+              itemBuilder: (context, index) {
+                // Fade transition for each comment card
+                return FadeTransition(
+                  opacity: _animation,
+                  child: CommentCard(
+                    snap: comments[index].data(),
+                    color: Colors.white, // Set comment card background color to white
+                  ),
+                );
+              },
             );
-          }
-          return ListView.builder(
-              itemCount:  (snapshot.data! as dynamic).docs.length,
-              itemBuilder: (context,index)=>CommentCard(
-                snap:(snapshot.data! as dynamic).docs[index].data()
-              ));
-        },
+          },
+        ),
       ),
       bottomNavigationBar: SafeArea(
         child: Container(
@@ -58,49 +90,55 @@ class _CommentsScreenState extends State<CommentsScreen> {
           margin: EdgeInsets.only(
             bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
-          padding: const EdgeInsets.only(left: 16,right: 8),
+          padding: const EdgeInsets.only(left: 16, right: 8),
+          color: Colors.white, // Set bottom nav background color to white
           child: Row(
             children: [
               CircleAvatar(
                 backgroundImage: NetworkImage(user!.photoUrl),
-                radius:18 ,
-
+                radius: 18,
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 16,right: 8.0),
+                  padding: const EdgeInsets.only(left: 16, right: 8.0),
                   child: TextField(
                     controller: _commentController,
                     decoration: InputDecoration(
                       hintText: 'Comment as ${user.username}',
-                      border:InputBorder.none,
+                      hintStyle: const TextStyle(color: Colors.black54), // Hint text color
+                      border: InputBorder.none,
                     ),
+                    style: const TextStyle(color: Colors.black), // Text color
                   ),
                 ),
               ),
               InkWell(
-                onTap: ()async{
+                onTap: () async {
                   await FirestoreMethods().postComment(
-                      widget.snap['postId'],
-                      _commentController.text,
-                      user.uid,
-                      user.username,
-                      user.photoUrl);
+                    widget.snap['postId'],
+                    _commentController.text,
+                    user.uid,
+                    user.username,
+                    user.photoUrl,
+                  );
+
+
                   setState(() {
-                    _commentController.text="";
+                    _commentController.text = "";
+                    _controller.forward(); // Trigger animation when a comment is posted
                   });
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 8
+                    vertical: 8,
+                    horizontal: 8,
                   ),
                   child: const Text(
                     'Post',
-                  style: TextStyle(
-                    color:Colors.green,
-                  ),),
-
+                    style: TextStyle(
+                      color: Colors.lightBlueAccent,
+                    ),
+                  ),
                 ),
               )
             ],

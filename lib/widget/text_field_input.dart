@@ -5,28 +5,34 @@ class TextFieldInput extends StatelessWidget {
   final bool isPass;
   final String hintText;
   final TextInputType textInputType;
+  final InputDecoration? decoration; // Added customization option for InputDecoration
 
   const TextFieldInput({
     super.key,
-  required this.textInputType,
-  required this.textEditingController,
-  required this.hintText, this.isPass=false, required InputDecoration decoration});
+    required this.textEditingController,
+    required this.hintText,
+    required this.textInputType,
+    this.isPass = false,
+    this.decoration, required FocusNode focusNode, // Making InputDecoration optional and customizable
+  });
 
   @override
   Widget build(BuildContext context) {
-    final inputBorder=OutlineInputBorder(
-        borderSide: Divider.createBorderSide(context)
+    final inputBorder = OutlineInputBorder(
+      borderSide: Divider.createBorderSide(context),
     );
+
     return TextField(
       controller: textEditingController,
-      decoration: InputDecoration(
-        hintText: hintText,
-        border: inputBorder,
-        focusedBorder: inputBorder,
-        enabledBorder: inputBorder,
-        filled: true,
-        contentPadding: const EdgeInsets.all(8),
-      ),
+      decoration:
+          InputDecoration(
+            hintText: hintText,
+            border: inputBorder,
+            focusedBorder: inputBorder,
+            enabledBorder: inputBorder,
+            filled: true,
+            contentPadding: const EdgeInsets.all(8),
+          ),
       keyboardType: textInputType,
       obscureText: isPass,
     );

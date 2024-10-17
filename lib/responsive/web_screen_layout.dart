@@ -46,7 +46,7 @@ class _WebScreenLayoutState extends State<WebScreenLayout> {
         backgroundColor: mobileBackgroundColor,
         centerTitle: false,
         title: Image.asset(
-          'assets/linkup.jpg',
+          'assets/linkup.png',
           height: 64,),
         actions: [
           IconButton(

@@ -18,7 +18,7 @@ class Post{
     required this.postId,
     required this.postUrl,
     required this.profImage,
-    required this.likes,
+    required this.likes,y
   });
   static Post fromeSnap(DocumentSnapshot snap){
     var snapshot =snap.data() as Map<String,dynamic>;

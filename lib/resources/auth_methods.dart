@@ -87,7 +87,16 @@ class AuthMethods{
     }
     return res;
    }
-   Future<void>signOut()async{
+  Future<String> resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      return "Success";
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  Future<void>signOut()async{
     await _auth.signOut();
    }
 }
