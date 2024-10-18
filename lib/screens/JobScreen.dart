@@ -8,6 +8,8 @@ class Job {
   final List<String> responsibilities;
   final String salary;
   final String stipend;
+  final String location;
+  final String phoneNumber;
 
   Job({
     required this.companyName,
@@ -15,6 +17,8 @@ class Job {
     required this.responsibilities,
     required this.salary,
     required this.stipend,
+    required this.location,
+    required this.phoneNumber, // Initialize phone number
   });
 }
 
@@ -29,7 +33,9 @@ List<Job> jobs = [
       'Write clean, maintainable code',
     ],
     salary: '60,000 USD per year',
-    stipend: '6,000 USD ',
+    stipend: '6,000 USD',
+    location: 'San Francisco, CA, USA',
+    phoneNumber: '(415) 555-1234',
   ),
   Job(
     companyName: 'ByteWorks Solutions',
@@ -40,7 +46,9 @@ List<Job> jobs = [
       'Collaborate with frontend developers',
     ],
     salary: '70,000 USD per year',
-    stipend: '7,000 USD ',
+    stipend: '7,000 USD',
+    location: 'Austin, TX, USA',
+    phoneNumber: '(512) 555-5678',
   ),
   Job(
     companyName: 'InfoTech Solutions',
@@ -52,94 +60,34 @@ List<Job> jobs = [
     ],
     salary: '85,000 USD per year',
     stipend: '8,500 USD',
+    location: 'New York, NY, USA',
+    phoneNumber: '(212) 555-7890',
   ),
   Job(
-    companyName: 'SoftWeb Technologies',
-    role: 'Backend Developer',
+    companyName: 'BlueSky Technologies',
+    role: 'Cloud Solutions Architect',
     responsibilities: [
-      'Develop and maintain server-side logic',
-      'Ensure data security and integrity',
-      'Collaborate with frontend and DevOps teams',
-    ],
-    salary: '65,000 USD per year',
-    stipend: '6,500 USD ',
-  ),
-  Job(
-    companyName: 'CyberTech Security',
-    role: 'Cybersecurity Engineer',
-    responsibilities: [
-      'Develop and implement security measures',
-      'Monitor and respond to security breaches',
-      'Perform regular security audits and tests',
-    ],
-    salary: '95,000 USD per year',
-    stipend: '9,500 USD ',
-  ),
-  Job(
-    companyName: 'DataStream Networks',
-    role: 'Network Engineer',
-    responsibilities: [
-      'Design and implement network infrastructure',
-      'Troubleshoot network issues and optimize performance',
-      'Ensure network security and connectivity',
-    ],
-    salary: '75,000 USD per year',
-    stipend: '7,500 USD ',
-  ),
-  Job(
-    companyName: 'Quantum Computing Inc.',
-    role: 'Embedded Systems Engineer',
-    responsibilities: [
-      'Design and develop embedded systems for various devices',
-      'Optimize system performance and power usage',
-      'Work closely with hardware and software teams',
-    ],
-    salary: '90,000 USD per year',
-    stipend: '9,000 USD ',
-  ),
-  Job(
-    companyName: 'GreenTech Innovations',
-    role: 'Cloud Engineer',
-    responsibilities: [
-      'Deploy and manage cloud-based applications',
-      'Ensure system reliability and scalability',
-      'Work with cloud providers like AWS, Azure, or GCP',
-    ],
-    salary: '80,000 USD per year',
-    stipend: '8,000 USD ',
-  ),
-  Job(
-    companyName: 'Innovative AI Solutions',
-    role: 'Machine Learning Engineer',
-    responsibilities: [
-      'Develop and implement machine learning algorithms',
-      'Work on AI-driven solutions',
-      'Collaborate with data scientists and engineers',
+      'Design cloud infrastructure for large-scale projects',
+      'Implement and optimize cloud solutions',
+      'Collaborate with IT teams for system integration',
     ],
     salary: '100,000 USD per year',
     stipend: '10,000 USD',
+    location: 'Seattle, WA, USA',
+    phoneNumber: '(206) 555-3456',
   ),
   Job(
-    companyName: 'NeoSoft Technologies',
-    role: 'Computer Vision Engineer',
+    companyName: 'QuantumLogic',
+    role: 'Data Scientist',
     responsibilities: [
-      'Develop computer vision models for image processing tasks',
-      'Work on autonomous systems and AI projects',
-      'Collaborate with research and product teams',
-    ],
-    salary: '110,000 USD per year',
-    stipend: '11,000 USD',
-  ),
-  Job(
-    companyName: 'NextGen Robotics',
-    role: 'Robotics Engineer',
-    responsibilities: [
-      'Design and develop robotic systems',
-      'Work on automation solutions and autonomous systems',
-      'Collaborate with software and hardware teams',
+      'Analyze large datasets to drive business insights',
+      'Develop predictive models',
+      'Collaborate with engineering and product teams',
     ],
     salary: '95,000 USD per year',
     stipend: '9,500 USD',
+    location: 'Chicago, IL, USA',
+    phoneNumber: '(312) 555-6543',
   ),
 ];
 
@@ -159,95 +107,104 @@ class JobScreen extends StatelessWidget {
         itemCount: jobs.length,
         itemBuilder: (context, index) {
           final job = jobs[index];
-          return GestureDetector(
-            onTap: () {
-              // Navigate to job apply screen
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => JobApplyScreen(job: job),
-                ),
-              );
-            },
-            child: Hero(
-              tag: job.companyName,
-              child: Container(
-                margin: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white, // Change background to white
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.black.withOpacity(0.5)), // Black border
-                ),
-                child: Card(
-                  color: Colors.transparent, // Make the card transparent
-                  elevation: 5, // Slight elevation for shadow effect
-                  child: Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          job.companyName,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          'Role: ${job.role}',
-                          style: TextStyle(fontSize: 16, color: Colors.black),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          'Salary: ${job.salary}',
-                          style: TextStyle(fontSize: 16, color: Colors.black),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          'Stipend: ${job.stipend}',
-                          style: TextStyle(fontSize: 16, color: Colors.black),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Responsibilities:',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                        for (var responsibility in job.responsibilities)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10, top: 5),
-                            child: Text(
-                              '- $responsibility',
-                              style: TextStyle(color: Colors.black),
+          return TweenAnimationBuilder(
+            duration: const Duration(milliseconds: 500),
+            tween: ColorTween(begin: Colors.white, end: Colors.lightBlue.shade50),
+            builder: (context, color, child) {
+              return Hero(
+                tag: job.companyName,
+                child: Container(
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: color as Color, // Animate between colors
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.lightBlue), // Sky blue border
+                  ),
+                  child: Card(
+                    color: Colors.transparent, // Make the card transparent
+                    elevation: 5, // Slight elevation for shadow effect
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            job.companyName,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Colors.black,
                             ),
                           ),
-                        SizedBox(height: 10),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Navigate to the job application page
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => JobApplyScreen(job: job),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.lightBlue, // Sky blue button
-                            foregroundColor: Colors.white, // White button text
+                          SizedBox(height: 5),
+                          Text(
+                            'Role: ${job.role}',
+                            style: TextStyle(fontSize: 16, color: Colors.black),
                           ),
-                          child: Text('Apply Now'),
-                        ),
-                      ],
+                          SizedBox(height: 5),
+                          Text(
+                            'Location: ${job.location}', // Location field
+                            style: TextStyle(fontSize: 16, color: Colors.black),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            'Salary: ${job.salary}',
+                            style: TextStyle(fontSize: 16, color: Colors.black),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            'Stipend: ${job.stipend}',
+                            style: TextStyle(fontSize: 16, color: Colors.black),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Responsibilities:',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          for (var responsibility in job.responsibilities)
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10, top: 5),
+                              child: Text(
+                                '- $responsibility',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
+                          SizedBox(height: 10),
+                          TweenAnimationBuilder(
+                            duration: const Duration(milliseconds: 500),
+                            tween: ColorTween(
+                              begin: Colors.lightBlue,
+                              end: Colors.lightBlue.shade300,
+                            ),
+                            builder: (context, color, child) {
+                              return ElevatedButton(
+                                onPressed: () {
+                                  // Navigate to the job application page
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => JobApplyScreen(job: job),
+                                    ),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: color as Color, // Animated button color
+                                  foregroundColor: Colors.white, // White button text
+                                ),
+                                child: Text('Apply Now'),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
+              );
+            },
           );
         },
       ),

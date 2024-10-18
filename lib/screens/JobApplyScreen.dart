@@ -142,9 +142,9 @@ class _JobApplyScreenState extends State<JobApplyScreen>
       });
       hasError = true;
     }
-    if (phoneNumber.isEmpty) {
+    if (phoneNumber.isEmpty || phoneNumber.length != 10) {
       setState(() {
-        phoneNumberBorderColor = Colors.red; // Set border color to red if empty
+        phoneNumberBorderColor = Colors.red; // Set border color to red if invalid
       });
       hasError = true;
     }
@@ -157,7 +157,7 @@ class _JobApplyScreenState extends State<JobApplyScreen>
 
     if (hasError) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please fill in all required fields.')),
+        SnackBar(content: Text('Please fill in all required fields correctly.')),
       );
       return;
     }
@@ -257,29 +257,43 @@ class _JobApplyScreenState extends State<JobApplyScreen>
                   style: const TextStyle(color: Colors.black),
                 ),
                 SizedBox(height: 10),
-                TextField(
-                  keyboardType: TextInputType.phone, // Allow only phone input
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly, // Allow only digits
-                  ],
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.phone, color: Colors.lightBlue), // Sky blue icon
-                    hintText: 'Enter your Phone Number',
-                    hintStyle: const TextStyle(color: Colors.grey),
-                    filled: true,
-                    fillColor: Colors.transparent,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(color: phoneNumberBorderColor), // Use dynamic color
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                  ),
-                  style: const TextStyle(color: Colors.black),
-                  onChanged: (value) {
-                    phoneNumber = value;
-                  },
+                // Animated text field for phone number with smooth validation animation
+              TweenAnimationBuilder<Color?>(
+                duration: const Duration(milliseconds: 500),
+                tween: ColorTween(
+                  begin: Colors.grey, // Starting color
+                  end: phoneNumberBorderColor, // Ending color, ensure it's non-null
                 ),
-                SizedBox(height: 10),
+                builder: (context, color, child) {
+                  return TextField(
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(10), // Limit to 10 digits
+                    ],
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.phone, color: Colors.lightBlue),
+                      hintText: 'Enter your Phone Number (10 digits)',
+                      hintStyle: const TextStyle(color: Colors.grey),
+                      filled: true,
+                      fillColor: Colors.transparent,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: color ?? Colors.grey), // Use the animated color
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                    ),
+                    style: const TextStyle(color: Colors.black),
+                    onChanged: (value) {
+                      setState(() {
+                        phoneNumber = value;
+                      });
+                    },
+                  );
+                },
+              ),  
+
+              SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
