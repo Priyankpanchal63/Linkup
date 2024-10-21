@@ -8,6 +8,8 @@ import 'package:linkup/screens/search_screen.dart';
 
 import '../screens/JobScreen.dart';
 
+//import '../screens/JobScreen.dart';
+
 const webScreenSize=600;
 
 List<Widget> homeScreenItems = [

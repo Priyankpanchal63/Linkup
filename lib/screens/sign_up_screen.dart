@@ -129,11 +129,11 @@ class _SingUpScreenState extends State<SingUpScreen> with SingleTickerProviderSt
                   duration: const Duration(milliseconds: 300),
                   decoration: BoxDecoration(
                     color: _emailFocusNode.hasFocus
-                        ? Colors.lightBlue.withOpacity(0.1) // Sky blue background on focus
+                        ? Colors.amberAccent.withOpacity(0.1) // Sky blue background on focus
                         : Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: _emailFocusNode.hasFocus ? Colors.lightBlue : Colors.grey.shade300,
+                      color: _emailFocusNode.hasFocus ? Colors.amberAccent : Colors.grey.shade300,
                       width: 2,
                     ),
                   ),
@@ -169,11 +169,11 @@ class _SingUpScreenState extends State<SingUpScreen> with SingleTickerProviderSt
                   duration: const Duration(milliseconds: 300),
                   decoration: BoxDecoration(
                     color: _usernameFocusNode.hasFocus
-                        ? Colors.lightBlue.withOpacity(0.1) // Sky blue background on focus
+                        ? Colors.amberAccent.withOpacity(0.1) // Sky blue background on focus
                         : Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: _usernameFocusNode.hasFocus ? Colors.lightBlue : Colors.grey.shade300,
+                      color: _usernameFocusNode.hasFocus ? Colors.amberAccent : Colors.grey.shade300,
                       width: 2,
                     ),
                   ),
@@ -208,11 +208,11 @@ class _SingUpScreenState extends State<SingUpScreen> with SingleTickerProviderSt
                   duration: const Duration(milliseconds: 300),
                   decoration: BoxDecoration(
                     color: _bioFocusNode.hasFocus
-                        ? Colors.lightBlue.withOpacity(0.1) // Sky blue background on focus
+                        ? Colors.amberAccent.withOpacity(0.1) // Sky blue background on focus
                         : Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: _bioFocusNode.hasFocus ? Colors.lightBlue : Colors.grey.shade300,
+                      color: _bioFocusNode.hasFocus ? Colors.amberAccent : Colors.grey.shade300,
                       width: 2,
                     ),
                   ),
@@ -247,11 +247,11 @@ class _SingUpScreenState extends State<SingUpScreen> with SingleTickerProviderSt
                   duration: const Duration(milliseconds: 300),
                   decoration: BoxDecoration(
                     color: _passFocusNode.hasFocus
-                        ? Colors.lightBlue.withOpacity(0.1) // Sky blue background on focus
+                        ? Colors.amberAccent.withOpacity(0.1) // Sky blue background on focus
                         : Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: _passFocusNode.hasFocus ? Colors.lightBlue : Colors.grey.shade300,
+                      color: _passFocusNode.hasFocus ? Colors.amberAccent : Colors.grey.shade300,
                       width: 2,
                     ),
                   ),

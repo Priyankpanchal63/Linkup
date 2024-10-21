@@ -258,42 +258,42 @@ class _JobApplyScreenState extends State<JobApplyScreen>
                 ),
                 SizedBox(height: 10),
                 // Animated text field for phone number with smooth validation animation
-              TweenAnimationBuilder<Color?>(
-                duration: const Duration(milliseconds: 500),
-                tween: ColorTween(
-                  begin: Colors.grey, // Starting color
-                  end: phoneNumberBorderColor, // Ending color, ensure it's non-null
-                ),
-                builder: (context, color, child) {
-                  return TextField(
-                    keyboardType: TextInputType.phone,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(10), // Limit to 10 digits
-                    ],
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.phone, color: Colors.lightBlue),
-                      hintText: 'Enter your Phone Number (10 digits)',
-                      hintStyle: const TextStyle(color: Colors.grey),
-                      filled: true,
-                      fillColor: Colors.transparent,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: color ?? Colors.grey), // Use the animated color
+                TweenAnimationBuilder<Color?>(
+                  duration: const Duration(milliseconds: 500),
+                  tween: ColorTween(
+                    begin: Colors.grey, // Starting color
+                    end: phoneNumberBorderColor, // Ending color, ensure it's non-null
+                  ),
+                  builder: (context, color, child) {
+                    return TextField(
+                      keyboardType: TextInputType.phone,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(10), // Limit to 10 digits
+                      ],
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.phone, color: Colors.lightBlue),
+                        hintText: 'Enter your Phone Number (10 digits)',
+                        hintStyle: const TextStyle(color: Colors.grey),
+                        filled: true,
+                        fillColor: Colors.transparent,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(color: color ?? Colors.grey), // Use the animated color
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                    ),
-                    style: const TextStyle(color: Colors.black),
-                    onChanged: (value) {
-                      setState(() {
-                        phoneNumber = value;
-                      });
-                    },
-                  );
-                },
-              ),  
+                      style: const TextStyle(color: Colors.black),
+                      onChanged: (value) {
+                        setState(() {
+                          phoneNumber = value;
+                        });
+                      },
+                    );
+                  },
+                ),
 
-              SizedBox(height: 10),
+                SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

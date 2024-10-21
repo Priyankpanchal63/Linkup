@@ -76,11 +76,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 duration: const Duration(milliseconds: 300),
                 decoration: BoxDecoration(
                   color: _emailFocusNode.hasFocus
-                      ? Colors.lightBlue.withOpacity(0.1) // Sky blue background on focus
+                      ? Colors.amberAccent.withOpacity(0.1) // Sky blue background on focus
                       : Colors.white,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: _emailFocusNode.hasFocus ? Colors.lightBlue : Colors.grey.shade300,
+                    color: _emailFocusNode.hasFocus ? Colors.amberAccent : Colors.grey.shade300,
                     width: 2,
                   ),
                 ),

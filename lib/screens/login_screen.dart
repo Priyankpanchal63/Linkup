@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:linkup/resources/auth_methods.dart';
 import 'package:linkup/screens/forgot_password_screen.dart';
 import 'package:linkup/screens/sign_up_screen.dart';
+// import 'package:linkup/screens/BusinessLoginScreen.dart'; // Import for business login
 import 'package:linkup/utils/utils.dart';
 
 import '../responsive/mobile_screen_layout.dart';
@@ -71,6 +72,13 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     ));
   }
 
+  // Navigate to Business Login Screen
+  // void navigateToBusinessLogin() {
+  //   Navigator.of(context).push(MaterialPageRoute(
+  //     builder: (context) => const BusinessLoginScreen(), // Business login page
+  //   ));
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,10 +108,10 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
                       decoration: BoxDecoration(
-                        color: _emailFocusNode.hasFocus ? Colors.lightBlue.withOpacity(0.1) : Colors.white,
+                        color: _emailFocusNode.hasFocus ? Colors.amberAccent.withOpacity(0.1) : Colors.white,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: _emailFocusNode.hasFocus ? Colors.lightBlue : Colors.grey.shade300,
+                          color: _emailFocusNode.hasFocus ? Colors.amberAccent : Colors.grey.shade300,
                           width: 2,
                         ),
                       ),
@@ -138,10 +146,10 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
                       decoration: BoxDecoration(
-                        color: _passFocusNode.hasFocus ? Colors.lightBlue.withOpacity(0.1) : Colors.white,
+                        color: _passFocusNode.hasFocus ? Colors.amberAccent.withOpacity(0.1) : Colors.white,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: _passFocusNode.hasFocus ? Colors.lightBlue : Colors.grey.shade300,
+                          color: _passFocusNode.hasFocus ? Colors.amberAccent: Colors.grey.shade300,
                           width: 2,
                         ),
                       ),
@@ -250,6 +258,21 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                       ),
                     ],
                   ),
+
+                  const SizedBox(height: 12),
+
+                  // Business Login link
+                  // TextButton(
+                  //   onPressed: navigateToBusinessLogin, // Navigate to business login
+                  //   child: const Text(
+                  //     'Log in with Business Account',
+                  //     style: TextStyle(
+                  //       color: Colors.lightBlue,
+                  //       fontSize: 16,
+                  //       fontWeight: FontWeight.bold,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
