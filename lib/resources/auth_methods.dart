@@ -8,7 +8,6 @@ class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Get user details
   Future<model.User> getUserDetails() async {
     User currentUser = _auth.currentUser!;
 
@@ -18,7 +17,6 @@ class AuthMethods {
     return model.User.fromSnap(documentSnapshot);
   }
 
-  // Sign-up user with email verification
   Future<String> signUpUser({
     required String email,
     required String password,
@@ -28,22 +26,29 @@ class AuthMethods {
   }) async {
     String res = "Some error occurred";
     try {
-      if (email.isNotEmpty ||
-          password.isNotEmpty ||
-          username.isNotEmpty ||
-          bio.isNotEmpty ||
-          file != null) {
-        // Create user with Firebase authentication
-        UserCredential cred = await _auth.createUserWithEmailAndPassword(
-            email: email, password: password);
+      // Check if all fields, including profile picture, are filled
+      if (email.isNotEmpty &&
+          password.isNotEmpty &&
+          username.isNotEmpty &&
+          bio.isNotEmpty &&
+          file.isNotEmpty) {
+        // Create user in Firebase Authentication
+        final UserCredential cred = await _auth.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
 
         // Send email verification
         await cred.user!.sendEmailVerification();
 
+        // Notify user about the email verification
+        print("Verification email sent to ${cred.user!.email}");
+
+        // Upload profile picture to Firebase Storage
         String photoUrl = await StorageMethods()
             .uplodImageToStorage('profilePics', file, false);
 
-        // Add user to the database
+        // Create a user model instance
         model.User user = model.User(
           username: username,
           uid: cred.user!.uid,
@@ -54,11 +59,12 @@ class AuthMethods {
           following: [],
         );
 
+        // Add user to Firestore database
         await _firestore.collection('users').doc(cred.user!.uid).set(user.toJson());
 
-        res = "Success! Please verify your email.";
+        res = "Verification email sent. Please check your email and verify before logging in.";
       } else {
-        res = "Please enter all the fields";
+        res = "Please fill all fields, including profile picture.";
       }
     } catch (err) {
       res = err.toString();
@@ -66,26 +72,19 @@ class AuthMethods {
     return res;
   }
 
-  // Login user and check if email is verified
+  // Login user
   Future<String> loginUser({
     required String email,
     required String password,
   }) async {
     String res = "Some error occurred";
     try {
-      if (email.isNotEmpty || password.isNotEmpty) {
-        // Sign in user
-        UserCredential cred = await _auth.signInWithEmailAndPassword(
+      if (email.isNotEmpty && password.isNotEmpty) {
+        await _auth.signInWithEmailAndPassword(
             email: email, password: password);
-
-        // Check if email is verified
-        if (cred.user!.emailVerified) {
-          res = "success";
-        } else {
-          res = "Please verify your email before logging in.";
-        }
+        res = "success";
       } else {
-        res = "Please enter all the fields";
+        res = "Please enter all fields";
       }
     } catch (err) {
       res = err.toString();
@@ -93,22 +92,6 @@ class AuthMethods {
     return res;
   }
 
-  // Resend email verification
-  Future<String> resendEmailVerification() async {
-    try {
-      User? user = _auth.currentUser;
-      if (user != null && !user.emailVerified) {
-        await user.sendEmailVerification();
-        return "Verification email sent!";
-      } else {
-        return "User is either not logged in or email already verified.";
-      }
-    } catch (e) {
-      return e.toString();
-    }
-  }
-
-  // Reset password
   Future<String> resetPassword(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
@@ -118,7 +101,6 @@ class AuthMethods {
     }
   }
 
-  // Sign out user
   Future<void> signOut() async {
     await _auth.signOut();
   }

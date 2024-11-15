@@ -15,6 +15,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   bool _isHovered = false;
   FocusNode _emailFocusNode = FocusNode();
 
+
   @override
   void dispose() {
     super.dispose();

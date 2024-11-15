@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:linkup/resources/firestore_methods.dart';
 import 'package:linkup/utils/colors.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/user.dart';
 import '../providers/user_provider.dart';
@@ -45,12 +45,12 @@ class _CommentsScreenState extends State<CommentsScreen> with SingleTickerProvid
         backgroundColor: Colors.white,
         title: const Text(
           'Comments',
-          style: TextStyle(color: Colors.black), // Set title text color to black
+          style: TextStyle(color: Colors.black),
         ),
         centerTitle: false,
       ),
       body: Container(
-        color: Colors.white, // Set background color to white
+        color: Colors.white,
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('posts')
@@ -65,18 +65,16 @@ class _CommentsScreenState extends State<CommentsScreen> with SingleTickerProvid
               );
             }
 
-            // Extract comment data
-            final comments = (snapshot.data! as dynamic).docs;
+            final comments = snapshot.data!.docs;
 
             return ListView.builder(
               itemCount: comments.length,
               itemBuilder: (context, index) {
-                // Fade transition for each comment card
                 return FadeTransition(
                   opacity: _animation,
                   child: CommentCard(
                     snap: comments[index].data(),
-                    color: Colors.white, // Set comment card background color to white
+                    color: Colors.white,
                   ),
                 );
               },
@@ -91,7 +89,7 @@ class _CommentsScreenState extends State<CommentsScreen> with SingleTickerProvid
             bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
           padding: const EdgeInsets.only(left: 16, right: 8),
-          color: Colors.white, // Set bottom nav background color to white
+          color: Colors.white,
           child: Row(
             children: [
               CircleAvatar(
@@ -105,42 +103,37 @@ class _CommentsScreenState extends State<CommentsScreen> with SingleTickerProvid
                     controller: _commentController,
                     decoration: InputDecoration(
                       hintText: 'Comment as ${user.username}',
-                      hintStyle: const TextStyle(color: Colors.black54), // Hint text color
+                      hintStyle: const TextStyle(color: Colors.black54),
                       border: InputBorder.none,
                     ),
-                    style: const TextStyle(color: Colors.black), // Text color
+                    style: const TextStyle(color: Colors.black),
                   ),
                 ),
               ),
               InkWell(
                 onTap: () async {
-                  await FirestoreMethods().postComment(
-                    widget.snap['postId'],
-                    _commentController.text,
-                    user.uid,
-                    user.username,
-                    user.photoUrl,
-                  );
-
-
-                  setState(() {
-                    _commentController.text = "";
-                    _controller.forward(); // Trigger animation when a comment is posted
-                  });
+                  if (_commentController.text.isNotEmpty) {
+                    await FirestoreMethods().postComment(
+                      widget.snap['postId'],
+                      _commentController.text,
+                      user.uid,
+                      user.username,
+                      user.photoUrl,
+                    );
+                    setState(() {
+                      _commentController.text = "";
+                      _controller.forward();
+                    });
+                  }
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 8,
-                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
                   child: const Text(
                     'Post',
-                    style: TextStyle(
-                      color: Colors.lightBlueAccent,
-                    ),
+                    style: TextStyle(color: Colors.lightBlueAccent),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

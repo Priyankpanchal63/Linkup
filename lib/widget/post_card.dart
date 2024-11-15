@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:linkup/resources/firestore_methods.dart';
@@ -150,11 +151,16 @@ class _PostCardState extends State<PostCard> {
                 ),
                 // Delete Option
                 IconButton(
-                  onPressed: () {
+                  onPressed: widget.snap['uid'] == FirebaseAuth.instance.currentUser!.uid
+                      ? () {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: const Text("Delete Post", style: TextStyle(color: Colors.black)), // Black title text
+                        backgroundColor: Colors.white, // White background
+                        title: const Text(
+                          "Delete Post",
+                          style: TextStyle(color: Colors.black), // Black title text
+                        ),
                         content: const Text(
                           "Are you sure you want to delete this post?",
                           style: TextStyle(color: Colors.black), // Black content text
@@ -170,16 +176,23 @@ class _PostCardState extends State<PostCard> {
                             onPressed: () async {
                               String res = await FirestoreMethods().deletePost(widget.snap['postId']);
                               Navigator.of(context).pop();
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(res)));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(res),
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
                             },
                             child: const Text("Delete", style: TextStyle(color: Colors.red)),
                           ),
                         ],
                       ),
                     );
-                  },
+                  }
+                      : null, // Disable button if user is not the owner
                   icon: const Icon(Icons.more_vert, color: Colors.black), // Icon color to black
                 ),
+
               ],
             ),
           ),
@@ -251,17 +264,17 @@ class _PostCardState extends State<PostCard> {
                 ),
                 icon: const Icon(Icons.comment_outlined, color: Colors.black), // Comment icon black
               ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.send, color: Colors.black), // Send icon black
-              ),
+              // IconButton(
+              //   onPressed: () {},
+              //   icon: const Icon(Icons.send, color: Colors.black), // Send icon black
+              // ),
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomRight,
-                  child: IconButton(
-                    icon: const Icon(Icons.bookmark_border, color: Colors.black), // Bookmark icon black
-                    onPressed: () {},
-                  ),
+                  // child: IconButton(
+                  //   icon: const Icon(Icons.bookmark_border, color: Colors.black), // Bookmark icon black
+                  //   onPressed: () {},
+                  // ),
                 ),
               ),
             ],

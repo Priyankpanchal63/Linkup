@@ -10,6 +10,7 @@ class Job {
   final String stipend;
   final String location;
   final String phoneNumber;
+  final String email; // Add email field
 
   Job({
     required this.companyName,
@@ -18,7 +19,8 @@ class Job {
     required this.salary,
     required this.stipend,
     required this.location,
-    required this.phoneNumber, // Initialize phone number
+    required this.phoneNumber,
+    this.email = 'priyankw8@gmail.com', // Set default email
   });
 }
 
@@ -154,6 +156,11 @@ class JobScreen extends StatelessWidget {
                           SizedBox(height: 5),
                           Text(
                             'Stipend: ${job.stipend}',
+                            style: TextStyle(fontSize: 16, color: Colors.black),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            'Email: ${job.email}', // Display email field
                             style: TextStyle(fontSize: 16, color: Colors.black),
                           ),
                           SizedBox(height: 10),
