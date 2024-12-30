@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:linkup/resources/auth_methods.dart';
 import 'package:linkup/screens/forgot_password_screen.dart';
 import 'package:linkup/screens/sign_up_screen.dart';
+
 // import 'package:linkup/screens/BusinessLoginScreen.dart'; // Import for business login
 import 'package:linkup/utils/utils.dart';
 
@@ -17,13 +18,15 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin {
+class _LoginScreenState extends State<LoginScreen>
+    with SingleTickerProviderStateMixin {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
   bool _isLoading = false;
   FocusNode _emailFocusNode = FocusNode();
   FocusNode _passFocusNode = FocusNode();
   bool _isHovered = false; // Track hover state for the button
+  bool isVisible = false;
 
   @override
   void dispose() {
@@ -39,14 +42,15 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
       _isLoading = true;
     });
 
-    String res =   await AuthMethods().loginUser(
+    String res = await AuthMethods().loginUser(
       email: _emailController.text,
       password: _passController.text,
     );
 
     if (res == "Success") {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const ResponsiveLayot(
+        builder: (context) =>
+        const ResponsiveLayot(
           mobileScreenLayout: MobileScreenLayout(),
           webScreenLayout: WebScreenLayout(),
         ),
@@ -108,10 +112,13 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
                       decoration: BoxDecoration(
-                        color: _emailFocusNode.hasFocus ? Colors.amberAccent.withOpacity(0.1) : Colors.white,
+                        color: _emailFocusNode.hasFocus ? Colors.amberAccent
+                            .withOpacity(0.1) : Colors.white,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: _emailFocusNode.hasFocus ? Colors.amberAccent : Colors.grey.shade300,
+                          color: _emailFocusNode.hasFocus
+                              ? Colors.amberAccent
+                              : Colors.grey.shade300,
                           width: 2,
                         ),
                       ),
@@ -120,7 +127,8 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.email, color: Colors.lightBlue),
+                          prefixIcon: Icon(
+                              Icons.email, color: Colors.lightBlue),
                           hintText: 'Enter your email',
                           hintStyle: TextStyle(color: Colors.grey),
                           filled: true,
@@ -129,7 +137,8 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 20),
                         ),
                         style: const TextStyle(color: Colors.black),
                       ),
@@ -146,28 +155,41 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
                       decoration: BoxDecoration(
-                        color: _passFocusNode.hasFocus ? Colors.amberAccent.withOpacity(0.1) : Colors.white,
+                        color: _passFocusNode.hasFocus ? Colors.amberAccent
+                            .withOpacity(0.1) : Colors.white,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: _passFocusNode.hasFocus ? Colors.amberAccent: Colors.grey.shade300,
+                          color: _passFocusNode.hasFocus
+                              ? Colors.amberAccent
+                              : Colors.grey.shade300,
                           width: 2,
                         ),
                       ),
                       child: TextField(
                         focusNode: _passFocusNode,
                         controller: _passController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.lock, color: Colors.lightBlue),
-                          hintText: 'Enter your password',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          filled: true,
-                          fillColor: Colors.transparent,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                        obscureText: !isVisible,
+                        decoration: InputDecoration(
+                            prefixIcon: const Icon(
+                                Icons.lock, color: Colors.lightBlue),
+                            hintText: 'Enter your password',
+                            hintStyle: const TextStyle(color: Colors.grey),
+                            filled: true,
+                            fillColor: Colors.transparent,
+                            border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(20)),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 20),
+                            suffix: IconButton(onPressed: () {
+                              setState(() {
+                                isVisible = !isVisible;
+                              });
+                            },
+                                icon: Icon(isVisible ? Icons.visibility:Icons.visibility_off,
+                                  color: Colors.lightBlue,))
                         ),
                         style: const TextStyle(color: Colors.black),
                       ),
@@ -186,7 +208,10 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                     },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
-                      width: MediaQuery.of(context).size.width * 0.8,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.8,
                       alignment: Alignment.center,
                       curve: Curves.easeInOut,
                       padding: const EdgeInsets.symmetric(vertical: 15),
@@ -194,8 +219,14 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                         borderRadius: BorderRadius.circular(1000),
                         gradient: LinearGradient(
                           colors: _isHovered
-                              ? [Colors.lightBlue.shade700, Colors.lightBlue.shade900]
-                              : [Colors.lightBlue.shade500, Colors.lightBlue.shade700],
+                              ? [
+                            Colors.lightBlue.shade700,
+                            Colors.lightBlue.shade900
+                          ]
+                              : [
+                            Colors.lightBlue.shade500,
+                            Colors.lightBlue.shade700
+                          ],
                         ),
                         boxShadow: [
                           BoxShadow(
@@ -214,7 +245,8 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                           fontWeight: FontWeight.bold,
                         ),
                       )
-                          : const CircularProgressIndicator(color: Colors.white),
+                          : const CircularProgressIndicator(
+                          color: Colors.white),
                     ),
                   ),
 
